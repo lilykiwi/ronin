@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ronin", "ronin.csproj", "{7E887379-8072-4161-AED3-8E32D365CD2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E887379-8072-4161-AED3-8E32D365CD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E887379-8072-4161-AED3-8E32D365CD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E887379-8072-4161-AED3-8E32D365CD2E}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{7E887379-8072-4161-AED3-8E32D365CD2E}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{7E887379-8072-4161-AED3-8E32D365CD2E}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{7E887379-8072-4161-AED3-8E32D365CD2E}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal
