@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://ckjme5o5aa24d"]
 
 [ext_resource type="Shader" path="res://shader/heightmap.gdshader" id="1_1p0a4"]
-[ext_resource type="Texture2D" uid="uid://do6tswikah8ls" path="res://img/heightmap0001.exr" id="2_m6cxo"]
-[ext_resource type="Texture2D" uid="uid://h7o2n2yxf6pr" path="res://img/normal0001.exr" id="3_gnwtm"]
+[ext_resource type="Texture2D" uid="uid://do6tswikah8ls" path="res://textures/heightmap0001.exr" id="2_m6cxo"]
+[ext_resource type="Texture2D" uid="uid://h7o2n2yxf6pr" path="res://textures/normal0001.exr" id="3_gnwtm"]
 
 [resource]
 render_priority = 0
