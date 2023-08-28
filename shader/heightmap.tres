@@ -1,14 +1,14 @@
 [gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://ckjme5o5aa24d"]
 
 [ext_resource type="Shader" path="res://shader/heightmap.gdshader" id="1_1p0a4"]
-[ext_resource type="Texture2D" uid="uid://do6tswikah8ls" path="res://textures/heightmap0001.exr" id="2_m6cxo"]
-[ext_resource type="Texture2D" uid="uid://h7o2n2yxf6pr" path="res://textures/normal0001.exr" id="3_gnwtm"]
+[ext_resource type="Texture2D" uid="uid://b8vxfoq3466e2" path="res://img/heightmap0001.exr" id="2_5w6r4"]
+[ext_resource type="Texture2D" uid="uid://b7tinhvhxa14g" path="res://img/normal0001.exr" id="3_0xqgq"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_1p0a4")
 shader_parameter/chunkCount = 1
 shader_parameter/chunkPos = null
-shader_parameter/heightScale = 32.0
-shader_parameter/heightMap = ExtResource("2_m6cxo")
-shader_parameter/normalMap = ExtResource("3_gnwtm")
+shader_parameter/heightScale = 55.0
+shader_parameter/heightMap = ExtResource("2_5w6r4")
+shader_parameter/normalMap = ExtResource("3_0xqgq")

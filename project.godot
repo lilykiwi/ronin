@@ -18,6 +18,11 @@ config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 
 shader_language/warnings/treat_warnings_as_errors=true
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [dotnet]
 
 project/assembly_name="ronin"
@@ -25,6 +30,11 @@ project/assembly_name="ronin"
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[filesystem]
+
+import/blender/enabled=false
+import/fbx/enabled=false
 
 [input]
 
