@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 namespace Ronin
 {
   [Tool]
-  public partial class Player : CharacterBody3D
+  public partial class PlayerView : CharacterBody3D
   {
+    private TeamManager? _teamManager = null;
+
     [ExportCategory("Sens")] /* ------------------- Sens ------------------- */
     [Export]
     public double Sensitivity = 0.0220048900; // degrees per dot
@@ -74,32 +78,28 @@ namespace Ronin
       .GetSetting("physics/3d/default_gravity")
       .AsSingle();
 
+    /* ----------------------------- Raycasts ------------------------------ */
+
+    private List<Vector2> _raycasts = new();
+
     /* --------------------------------------------------------------------- */
 
+    // TODO: make this instantiation-proof (i.e. not 100% dependent on editor
+    // configuration)
     public override void _Ready()
     {
-      if (HasNode("MainCamera"))
-      {
-        Camera = GetNode<Camera3D>("MainCamera");
-      }
-      else if (Camera == null)
-      {
-        Camera = new()
-        {
-          Name = "MainCamera",
-          Position = new Vector3(0f, 1.6f, 3f),
-          RotationDegrees = new Vector3(-30f, 0f, 0f),
-        };
-        AddChild(Camera);
-        Camera.Owner = GetTree().EditedSceneRoot;
-      }
+      Camera = this.GetOrCreate<Camera3D>("MainCamera");
+      Camera.Position = new Vector3(0f, 1.6f, 3f);
+      Camera.RotationDegrees = new Vector3(-30f, 0f, 0f);
+
+      _teamManager = GetParent<TeamManager>();
     }
 
     /// <summary>_PhysicsProcess</summary>
     /// <remarks>Processes physics for the node. This is provided by Godot as an
     /// example for player movement. Below (in comments) is my original GDScript
     /// implementation in my FPS test that calculates degrees per inch based on
-    /// DPI and sensitivity.</remarks>
+    /// DPI and sensitivity. This is called every physics step afaik.</remarks>
     /// <param name="delta">(double) do we need double precision?</param>
     /// <returns>void</returns>
     public override void _PhysicsProcess(double delta)
@@ -153,8 +153,44 @@ namespace Ronin
 
       Velocity = velocity;
       MoveAndSlide();
+      HandleRaycasts();
     }
 
+    private void HandleRaycasts()
+    {
+      if (_raycasts.Count == 0)
+        return;
+
+      PhysicsDirectSpaceState3D? spaceState = GetWorld3D().DirectSpaceState;
+
+      foreach (Vector2 ray in _raycasts)
+      {
+        var query = PhysicsRayQueryParameters3D.Create(
+          from: Camera!.GlobalPosition,
+          to: Camera!.ProjectPosition(ray, 500f)
+        );
+        Dictionary? result = spaceState!.IntersectRay(query);
+
+        GD.Print($"ray: {ray}");
+        GD.Print($"{Camera!.GlobalPosition}");
+        GD.Print($"{Camera!.ProjectPosition(ray, 500f)}");
+
+        GD.Print($"result: {result}");
+
+        if (result != null && result.Count > 0)
+        {
+          _teamManager.SetTarget((Vector3)result["position"]);
+        }
+      }
+
+      _raycasts.Clear();
+    }
+
+    /// <summary>_Process</summary>
+    /// <remarks>Called every visual frame. Independent of physics
+    /// step.</remarks>
+    /// <param name="delta">(double) frame delta for multiplication</param>
+    /// <returns>void</returns>
     public override void _Process(double delta)
     {
       if (Camera == null)
@@ -211,6 +247,17 @@ namespace Ronin
         if (EventMouseButton.IsAction("ZoomOut"))
         {
           Zoom = Mathf.Clamp(Zoom + ZoomSpeed, ZoomLimits.X, ZoomLimits.Y);
+        }
+
+        // TODO:
+        // https://docs.godotengine.org/en/stable/tutorials/physics/ray-casting.html#d-ray-casting-from-screen
+        // CollisionObject3D has an "input_event" signal that will let you know
+        // when it was clicked, but in case there is any desire to do it
+        // manually, here's how.
+        if (EventMouseButton.IsActionReleased("LeftClick")) { }
+        if (EventMouseButton.IsActionReleased("RightClick"))
+        {
+          _raycasts.Add(EventMouseButton.Position);
         }
       }
 
